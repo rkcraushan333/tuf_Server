@@ -6,7 +6,7 @@ const connection = mysql.createConnection({
     user: USER,
     password: PASSWORD,
     database: DBNAME
-}).promise()
+})
 connection.connect((err) => {
     if (err) {
         console.log('Error in DB connection' + JSON.stringify(err));
