@@ -6,7 +6,7 @@ const accessData = {
 
         const query = 'SELECT * FROM userData';
 
-        connection.query(query, (err, rows) => {
+        await connection.query(query, (err, rows) => {
             if (err) {
                 console.log(err);
                 return res.status(500).json({ error: 'Internal Server Error' });
@@ -28,7 +28,7 @@ const accessData = {
 
         const query = 'SELECT * FROM userData WHERE username = ?';
 
-        connection.query(query, [username], (err, rows) => {
+        await connection.query(query, [username], (err, rows) => {
             if (err) {
                 console.log(err);
                 return res.status(500).json({ error: 'Internal Server Error' });

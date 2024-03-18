@@ -11,7 +11,7 @@ const deleteData = {
 
         const query = 'DELETE FROM userData WHERE username = ?';
 
-        connection.query(query, [username], (err, result) => {
+        await connection.query(query, [username], (err, result) => {
             if (err) {
                 console.log(err);
                 return res.status(500).json({ error: 'Internal Server Error' });

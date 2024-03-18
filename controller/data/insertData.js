@@ -7,7 +7,7 @@ const insertData = {
         const data = [xdata.username, xdata.language, xdata.stdin, xdata.code];
         const query = 'INSERT INTO userData (username,language,stdin,code) VALUES(?)';
 
-        connection.query(query, [data], (err, result) => {
+        await connection.query(query, [data], (err, result) => {
             if (err) {
                 console.log(err);
                 return res.status(500).json({ error: 'Internal Server Error' });
