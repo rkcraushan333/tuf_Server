@@ -1,19 +1,23 @@
 import { connection } from '../../db/index.js';
 
-
 const insertData = {
     async insertOne(req, res, next) {
-        const xdata = req.body;
-        const data = [xdata.username, xdata.language, xdata.stdin, xdata.code];
-        const query = 'INSERT INTO userData (username,language,stdin,code) VALUES(?)';
+        try {
+            const { username, language, stdin, code } = req.body;
 
-        await connection.query(query, [data], (err, result) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).json({ error: 'Internal Server Error' });
+            if (!username || !language || !stdin || !code) {
+                return res.status(400).json({ error: 'Incomplete data provided' });
             }
-            res.json(result);
-        })
+
+            const query = 'INSERT INTO userData (username, language, stdin, code) VALUES (?,?,?,?)';
+            const result = await connection.promise().query(query, [username, language, stdin, code]);
+
+            res.json({ message: 'Data inserted successfully', insertId: result[0].insertId });
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
     }
-}
+};
+
 export default insertData;
