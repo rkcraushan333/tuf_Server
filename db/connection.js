@@ -1,18 +1,24 @@
-import mysql from 'mysql2'
-import { HOST, USER, PASSWORD, DBNAME } from '../config/index.js'
+import mysql from 'mysql2';
+import { HOST, USER, PASSWORD, DBNAME } from '../config/index.js';
 
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
     host: HOST,
     user: USER,
     password: PASSWORD,
-    database: DBNAME
-})
-connection.connect((err) => {
+    database: DBNAME,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
+
+// Test the connection
+connection.getConnection((err, connection) => {
     if (err) {
-        console.log('Error in DB connection' + JSON.stringify(err));
+        console.error('Error connecting to MySQL:', err);
+    } else {
+        console.log('MySQL connected successfully');
+        connection.release(); // Release the connection
     }
-    else {
-        console.log('DB connection established');
-    }
-})
+});
+
 export { connection };
