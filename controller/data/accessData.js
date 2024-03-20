@@ -1,13 +1,14 @@
 import { connection } from '../../db/index.js';
 import { Redis } from "ioredis"
+import { REDIS_URL } from '../../config/index.js';
 
-const client = new Redis();
+const client = new Redis(REDIS_URL);
 const accessData = {
-    // const cacheValue = await 
     async accessAll(req, res, next) {
         const cacheValue = await client.get('codeData');
         if (cacheValue) return res.json(JSON.parse(cacheValue));
-        // otherwise access and keep in redis for cache and also keep an expiry time
+
+        // otherwise access and keep in redis for cache and also keep an expiry time        
         try {
             const query = 'SELECT * FROM userData';
 
@@ -16,6 +17,7 @@ const accessData = {
             if (rows.length === 0) {
                 return res.status(404).json({ error: 'No Data found' });
             }
+
             await client.set('codeData', JSON.stringify(rows));
             await client.expire('codeData', 30)
             res.json(rows);

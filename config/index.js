@@ -7,5 +7,6 @@ export const {
     HOST,
     USER,
     PASSWORD,
-    DBNAME
+    DBNAME,
+    REDIS_URL
 } = process.env;
