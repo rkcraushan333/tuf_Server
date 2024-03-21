@@ -5,7 +5,7 @@ const insertData = {
         try {
             const { username, language, stdin, sourceCode, output } = req.body;
 
-            if (!username || !language || !stdin || !sourceCode || !output) {
+            if (!username || !language || !sourceCode) {
                 return res.status(400).json({ error: 'Incomplete data provided' });
             }
 
